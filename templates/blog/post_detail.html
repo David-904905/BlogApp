@@ -1,0 +1,66 @@
+{%extends 'partials/base.html' %}
+{% block title %}Post Detail{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{post.author.userprofile.image.url}}" alt="profile-image">
+                            <p>{{post.author}}</p>
+                        </div>
+                        <div class="col-md-8">
+                            <small>{{post.date_created}}</small>
+                            {% if post.author == request.user %}
+                            <span class=""><a href="{% url 'blog-post-edit' post.id %}" class="btn btn-primary btm-sm float-right">Edit</a></span>
+                            <span class=""><a href="{% url 'blog-post-delete' post.id%}" class="btn btn-danger btm-sm float-right">Delete</a></span>
+                            {% endif %}
+                            <hr>
+                            <h4>{{post.title}}</h4>
+                            <p>{{post.content}}</p>
+                        </div>
+                    </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Comments: <span>{{post.comment_count}}</span>
+                            </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div style="height: 250px; overflow-y: scroll;" class="accordion-body">
+                                {% for comments in post.comments %}
+                                <div class="card my-3 shadow">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <img class="img-thumbnail" src="{{comments.user.userprofile.image.url}}" alt="user-photo"> 
+                                            </div>
+                                            <div class="col-md-8">
+                                                <strong>{{comments.user.username}}</strong>
+                                                <hr style="padding: 0;">
+                                                <p>{{comments.content}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+                        <div style="padding: 5px; margin-top: 7px;">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{c_form}}
+                                <button type="submit" style="margin-top: 10px; padding: 0.5em; border: none; border-radius: 5px; width: 50%; box-sizing: border-box; color: white; background-color: grey;">comment</button>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

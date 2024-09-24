@@ -1,0 +1,43 @@
+{%extends 'partials/base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-5">
+        <div class="col-md-4">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <h3>Form</h3>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <!-- csrf stands for cross-site request forgery -->
+                        {{form}}
+                        <button type="submit" class="btn btn-secondary btn-lg btn-block" style="box-sizing: border-box; width: 100%; padding: 0.5em;">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {% for items in posts %}
+            <div class="card shadow my-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{items.author.userprofile.image.url}}" alt="img">
+                            <div class="div" style="font-weight: bold; display: flex; align-items: center;justify-content: center; padding: 5px;">
+                                {{items.author}}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <small>{{items.date_created}}</small>
+                            <hr>
+                            <a class="h3" href="{% url 'post-detail-link' items.id%}">{{items.title}}</a>
+                            <p class="text-justify my-3">{{items.content}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

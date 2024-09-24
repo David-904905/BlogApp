@@ -1,0 +1,13 @@
+.cover{
+    background: url('/media/background.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+/* 
+input[type='email']{
+    width: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+
+} */
